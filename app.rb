@@ -68,7 +68,7 @@ helpers do
 
     if lose?
       session[:message] = "You lose! The secret word was "\
-                          "<strong>#{session[:secret_word]}</strong>."
+                          "<span>#{session[:secret_word]}</span>."
     end
   end
 

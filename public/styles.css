@@ -19,6 +19,10 @@ p {
   color: black;
 }
 
+#display {
+  font-size: 40px;
+}
+
 a:link, a:visited {
   text-decoration: none;
   color: black;
@@ -30,8 +34,11 @@ a:hover, a:active {
 }
 
 form input{
+  border: 1px solid black;
+  font-family: "Gloria Hallelujah", cursive, Arial;
   font-size: 20px;
   outline: 0;
+  line-height:39px;
   width: 150px;
 }
 
@@ -39,8 +46,8 @@ form input{
   background-color: #A9E4D4;
   border: 1px solid white;
   padding: 5px;
+  line-height: 30px;
   width: 75px;
-  height: 35px;
 }
 
 #button:hover {
@@ -69,5 +76,9 @@ footer p {
 }
 
 #git:hover, #git:active {
+  color: white;
+}
+
+span {
   color: white;
 }
