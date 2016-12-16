@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hangman</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+  </head>
+  <body>
+    <h1>Hangman</h1>
+    <p> <%= @secret_word %> </p>
+    <p> <%= @display_word %> </p>
+    <p> 
+    Guessed letters: 
+    <% @guessed_letters.each { |letter| %> <%=letter %> <% } %>
+    </p>
+    <p> Guesses left: <%= @guesses_left %> </p>
+    <form method="POST">
+      <input type="text" name="guess" />
+      <input type="submit" value="Guess!" />
+    </form>
+  </body>
+</html>
