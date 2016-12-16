@@ -11,7 +11,7 @@ end
 
 post "/" do
   guess = params["guess"].downcase
-  add_guess(guess)
+  add_guess(guess) if session[:guesses_left] > 0
   set_state
   @message = session[:message]
   erb :index
@@ -47,8 +47,8 @@ helpers do
   end
 
   def add_guess(guess)
+    session[:message] = ""
     if valid_letter_guess?(guess)
-      session[:message] = ""
       session[:guesses_left] -= 1
       session[:guessed_letters] << guess
       add_guess_to_display(guess)
@@ -56,6 +56,7 @@ helpers do
         session[:message] = "You win!"
       end
     elsif valid_word_guess?(guess)
+      session[:guesses_left] -= 1
       if guess == session[:secret_word]
         complete_display
         session[:message] = "You win!"
