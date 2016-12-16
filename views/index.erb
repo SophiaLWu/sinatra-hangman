@@ -3,10 +3,11 @@
   <head>
     <title>Hangman</title>
     <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
   </head>
   <body>
     <h1>Hangman</h1>
-    <p>
+    <p id="display">
       <% @display_word.each { |letter| %> <%=letter %> <% } %>
     </p>
     <p> 
@@ -16,13 +17,23 @@
     <p> Guesses left: <%= @guesses_left %> </p>
     <form method="POST">
       <input type="text" name="guess" />
-      <input type="submit" value="Guess!" />
+      <input id="button" type="submit" value="Guess!" />
     </form>
-    <p> <%= @message %>
+    <p id="message"> <%= @message %>
     <p>
       <% if win? || lose? %>
         <a href="/" class="btn">Play again?</a>
       <% end %>
     </p>
+    <footer>
+      <p>
+        &#169 Sophia Wu 2016
+      </p>
+      <p>
+        <a id="git" href="https://github.com/SophiaLWu/sinatra-hangman">
+          Github
+        </a>
+      </p>
+    </footer>
   </body>
 </html>
