@@ -13,11 +13,12 @@ post "/" do
   guess = params["guess"].downcase
   add_guess(guess)
   set_state
+  @message = session[:message]
   erb :index
 end
 
 helpers do
-  
+
   def set_state
     @secret_word = session[:secret_word]
     @guesses_left = session[:guesses_left]
@@ -42,12 +43,68 @@ helpers do
   end
 
   def display_word
-    ("_" * session[:secret_word].length).split("").join(" ")
+    Array.new(session[:secret_word].length, "_")
   end
 
   def add_guess(guess)
-    session[:guesses_left] -= 1
-    session[:guessed_letters] << guess
+    if valid_letter_guess?(guess)
+      session[:message] = ""
+      session[:guesses_left] -= 1
+      session[:guessed_letters] << guess
+      add_guess_to_display(guess)
+      if win?
+        session[:message] = "You win!"
+      end
+    elsif valid_word_guess?(guess)
+      if guess == session[:secret_word]
+        complete_display
+        session[:message] = "You win!"
+      end
+    else
+      session[:message] = "Invalid input. Please try again."
+      guess = params["guess"].downcase
+    end
+
+    if lose?
+      session[:message] = "You lose! The secret word was "\
+                          "<strong>#{session[:secret_word]}</strong>."
+    end
+  end
+
+  def add_guess_to_display(guess)
+    session[:secret_word].length.times do |index|
+      if session[:secret_word][index] == guess
+        session[:display_word][index] = guess
+      end
+    end
+  end
+
+  def valid_letter_guess?(guess)
+    guess.length == 1 && contains_only_letters?(guess) &&
+    !session[:guessed_letters].include?(guess)
+  end
+
+  def valid_word_guess?(guess)
+    guess.length == session[:secret_word].length && 
+    contains_only_letters?(guess)
+  end
+
+  def contains_only_letters?(input)
+    /[^A-Za-z]/ !~ input
+  end
+
+  def win?
+    session[:display_word].none? { |letter| letter == "_" }
+  end
+
+  def lose?
+    session[:guesses_left] == 0 && !win?
+  end
+
+  def complete_display
+    session[:secret_word].split("").each_with_index do |letter, index|
+      session[:display_word][index] = letter
+    end
   end
 
 end

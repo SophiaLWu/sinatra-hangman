@@ -6,16 +6,23 @@
   </head>
   <body>
     <h1>Hangman</h1>
-    <p> <%= @secret_word %> </p>
-    <p> <%= @display_word %> </p>
+    <p>
+      <% @display_word.each { |letter| %> <%=letter %> <% } %>
+    </p>
     <p> 
-    Guessed letters: 
-    <% @guessed_letters.each { |letter| %> <%=letter %> <% } %>
+      Guessed letters: 
+      <% @guessed_letters.each { |letter| %> <%=letter %> <% } %>
     </p>
     <p> Guesses left: <%= @guesses_left %> </p>
     <form method="POST">
       <input type="text" name="guess" />
       <input type="submit" value="Guess!" />
     </form>
+    <p> <%= @message %>
+    <p>
+      <% if win? || lose? %>
+        <a href="/" class="btn">Play again?</a>
+      <% end %>
+    </p>
   </body>
 </html>
