@@ -14,6 +14,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+# Requires the application
+require_relative "../app"
+
 # Requires rack-test for using it pretty much from all examples
 require "rack/test"
 
