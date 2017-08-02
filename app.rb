@@ -49,7 +49,7 @@ helpers do
   def add_guess(guess)
     session[:message] = ""
     if valid_letter_guess?(guess)
-      session[:guesses_left] -= 1
+      session[:guesses_left] -= 1 unless session[:secret_word].include?(guess)
       session[:guessed_letters] << guess
       add_guess_to_display(guess)
       if win?
