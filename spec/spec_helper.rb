@@ -13,6 +13,10 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+# Requires rack-test for using it pretty much from all examples
+require "rack/test"
+
 RSpec.configure do |config|
   # Makes rack-test methods and attributes available in rspec examples.
   config.include Rack::Test::Methods
