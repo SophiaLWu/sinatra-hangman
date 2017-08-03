@@ -47,7 +47,7 @@ describe 'The Hangman App' do
 
     remaining_tries_before_guess = last_request.session[:guesses_left]
     3.times do
-      selected_guess = right_guesses.delete(right_guesses.sample) # Deletes a random letter from wrong_guesses and stores it into selected_guess
+      selected_guess = right_guesses.delete(right_guesses.sample) # Deletes a random letter from right_guesses and stores it into selected_guess
       post "/", { guess: selected_guess }
     end
     remaining_tries_after_guess = last_request.session[:guesses_left]
