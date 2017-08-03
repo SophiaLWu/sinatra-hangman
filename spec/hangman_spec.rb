@@ -10,17 +10,15 @@ describe 'The Hangman App' do
   end
 
   before :all do
-    clear_cookies
+    get '/'
   end
 
   it "shows the game page" do
-    get '/'
     expect(last_response).to be_ok
     expect(last_response.body).to include('Hangman')
   end
 
   it "provides a field to guess on letters" do
-    get '/'
     expect(last_response).to be_ok
     expect(last_response.body).to include('<form')
     expect(last_response.body).to include('<input type="text"')
@@ -35,7 +33,8 @@ describe 'The Hangman App' do
 
     remaining_tries_before_guess = last_request.session[:guesses_left]
     3.times do
-      post "/", { guess: wrong_guesses.sample } # Any of the wrong letters will do, but randomizing it is nice.
+      selected_guess = wrong_guesses.delete(wrong_guesses.sample) # Deletes a random letter from wrong_guesses and stores it into selected_guess
+      post "/", { guess: selected_guess }
     end
     remaining_tries_after_guess = last_request.session[:guesses_left]
 
@@ -48,7 +47,8 @@ describe 'The Hangman App' do
 
     remaining_tries_before_guess = last_request.session[:guesses_left]
     3.times do
-      post "/", { guess: right_guesses.sample } # Any of the right letters will do, but randomizing it is nice.
+      selected_guess = right_guesses.delete(right_guesses.sample) # Deletes a random letter from wrong_guesses and stores it into selected_guess
+      post "/", { guess: selected_guess }
     end
     remaining_tries_after_guess = last_request.session[:guesses_left]
 
@@ -62,6 +62,18 @@ describe 'The Hangman App' do
   end
 
   it "shows the player lost the game if they run out of tries before guessing the whole word" do
+    valid_letters = ('a'..'z').to_a
+
+    secret_word = last_request.session[:secret_word]
+    right_guesses = secret_word.split('')
+    wrong_guesses = valid_letters - right_guesses
+
+    10.times do
+      selected_guess = wrong_guesses.delete(wrong_guesses.sample) # Deletes a random letter from wrong_guesses and stores it into selected_guess
+      post "/", { guess: selected_guess }
+    end
+
+    expect(last_response.body).to include("You lose!")
   end
 
   it "shows the player won the game if they guess the whole word before running out of tries" do
