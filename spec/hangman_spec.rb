@@ -56,9 +56,6 @@ describe 'The Hangman App' do
     expect(remaining_tries_after_guess).to eql(remaining_tries_before_guess)
   end
 
-  it "marks letters guessed right in all positions they appear in the word" do
-  end
-
   it "does not mark any letter if the pĺayer guesses wrong" do
   end
 
